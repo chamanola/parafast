@@ -9,9 +9,9 @@ CYAN='\033[0;36m'
 MAGENTA='\033[0;35m'
 NC='\033[0m'
 
-echo -e "${YELLOW}          ===========================================${NC}"
-echo -e "${CYAN}                  PARAFAST INSTALLATION TOOL${NC}"
-echo -e "${YELLOW}          ===========================================${NC}"
+echo -e "${YELLOW}         ===========================================${NC}"
+echo -e "${CYAN}                 PARAFAST INSTALLATION TOOL${NC}"
+echo -e "${YELLOW}         ===========================================${NC}"
 echo ""
 
 error_exit() {
@@ -60,14 +60,15 @@ export PATH="$PATH:$HOME/go/bin"
 sleep 2
 
 echo -e "${GREEN}"
-echo "          ╔══════════════════════════════════════════╗"
-echo "                     INSTALLATION COMPLETE!         "
-echo "          ╚══════════════════════════════════════════╝"
+echo "         ╔══════════════════════════════════════════╗"
+echo "                    INSTALLATION COMPLETE!         "
+echo "         ╚══════════════════════════════════════════╝"
 echo -e "${NC}"
 
-echo -e "${MAGENTA}   Thank you for installing Parafast!${NC}"
+echo -e "${CYAN}       Thank you for installing Parafast!${NC}"
 echo ""
-echo -e "${YELLOW}   🚀 LAUNCHING PARAFAST... ⚡
+echo -e "${YELLOW}   🚀 LAUNCHING PARAFAST... ⚡${NC}"
+echo ""
 
 sleep 5
 
