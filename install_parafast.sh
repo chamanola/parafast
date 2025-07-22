@@ -14,9 +14,22 @@ else
     exit 1
 fi
 
+echo "Removing any existing expiry lock file..."
+rm -f /data/data/com.termux/files/home/.parafast_expired 2>/dev/null
+
+echo "Installing Parafast..."
 mkdir -p ~/go/bin
 curl -Lo ~/go/bin/parafast $DOWNLOAD_URL && chmod +x ~/go/bin/parafast
 
 echo 'export PATH=$PATH:$HOME/go/bin' >> ~/.bashrc && source ~/.bashrc
 
-echo -e "\n✅ Parafast installation successful! You can now run 'parafast' command."
+echo "Cleaning up installation files..."
+SCRIPT_NAME=$(basename "$0")
+rm -f "$SCRIPT_NAME" 2>/dev/null
+
+echo -e "\n✅ Parafast installation successful!"
+
+echo "Starting Parafast..."
+parafast
+
+exit 0
