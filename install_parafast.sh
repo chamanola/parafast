@@ -12,52 +12,57 @@ error_exit() {
     exit 1
 }
 
-# Check if this is a recursive call
-if [ -n "$PARAFAST_INSTALLER_RUNNING" ]; then
-    echo -e "${YELLOW}[Info] Installer already running, skipping auto-run${NC}"
+# Check if Parafast is already installed and running
+if pgrep -x "parafast" >/dev/null; then
+    echo -e "${YELLOW}Parafast is already running! Exiting...${NC}"
     exit 0
 fi
 
-export PARAFAST_INSTALLER_RUNNING=1
-
 if ! command -v curl &> /dev/null; then
-    error_exit "Install curl first: 'pkg install curl' or 'apt install curl'"
+    error_exit "Install curl first: 'pkg install curl' (Termux) or 'apt install curl' (Linux)"
 fi
 
 ARCH=$(uname -m)
-echo -e "${YELLOW}Detected architecture: $ARCH${NC}"
+echo -e "${YELLOW}Detected CPU: $ARCH${NC}"
 
 URL32="https://github.com/chamanola/parafast/raw/main/android%2032%20bit/parafast"
 URL64="https://github.com/chamanola/parafast/raw/main/android%2Blinux%2064bit/parafast"
 
 if [[ "$ARCH" == "armv7l" || "$ARCH" == "i686" || "$ARCH" == "x86" || "$ARCH" == "arm" ]]; then
-    echo -e "${GREEN}Installing 32-bit version...${NC}"
+    echo -e "${GREEN}Installing 32-bit Parafast...${NC}"
     DOWNLOAD_URL=$URL32
 elif [[ "$ARCH" == "arm64" || "$ARCH" == "aarch64" || "$ARCH" == "x86_64" ]]; then
-    echo -e "${GREEN}Installing 64-bit version...${NC}"
+    echo -e "${GREEN}Installing 64-bit Parafast...${NC}"
     DOWNLOAD_URL=$URL64
 else
-    error_exit "Unsupported CPU: $ARCH"
+    error_exit "Unsupported CPU architecture: $ARCH"
 fi
 
-# Cleanup and install
-rm -f ~/go/bin/parafast 2>/dev/null || true
-mkdir -p ~/go/bin || error_exit "Cannot create ~/go/bin"
-curl -L "$DOWNLOAD_URL" -o ~/go/bin/parafast || error_exit "Download failed"
-chmod +x ~/go/bin/parafast || error_exit "Cannot make executable"
+# Cleanup old files
+rm -f ~/go/bin/parafast ~/go/bin/parafast_main 2>/dev/null || true
+mkdir -p ~/go/bin || error_exit "Failed to create ~/go/bin"
 
-# Add to PATH if needed
+# Download & install
+echo -e "${YELLOW}Downloading Parafast...${NC}"
+curl -L "$DOWNLOAD_URL" -o ~/go/bin/parafast || error_exit "Download failed!"
+chmod +x ~/go/bin/parafast || error_exit "Failed to make executable"
+
+# Add to PATH if not already present
 if ! grep -q 'export PATH=$PATH:$HOME/go/bin' ~/.bashrc; then
     echo 'export PATH=$PATH:$HOME/go/bin' >> ~/.bashrc
 fi
 
-# Source in current shell
-export PATH=$PATH:$HOME/go/bin
+# Load PATH immediately
+export PATH="$PATH:$HOME/go/bin"
 
-echo -e "${GREEN}Installation complete!${NC}"
+echo -e "${GREEN}✔ Installation successful!${NC}"
 
-# Safe single execution
-echo -e "${YELLOW}Running Parafast...${NC}"
-exec ~/go/bin/parafast "$@"
+# Run Parafast ONCE without causing a loop
+if [ -z "$PARAFAST_AUTO_RUN" ]; then
+    echo -e "${YELLOW}🚀 Starting Parafast...${NC}"
+    PARAFAST_AUTO_RUN=1 ~/go/bin/parafast || echo -e "${RED}Failed to start. Try running 'parafast' manually.${NC}"
+else
+    echo -e "${YELLOW}Parafast was already auto-started. Run 'parafast' manually if needed.${NC}"
+fi
 
 exit 0
