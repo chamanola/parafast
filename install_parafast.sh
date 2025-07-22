@@ -65,7 +65,7 @@ echo "                    INSTALLATION COMPLETE!         "
 echo "         ╚══════════════════════════════════════════╝"
 echo -e "${NC}"
 
-echo -e "${CYAN}    ♥️ Thank you for installing Parafast!${NC}"
+echo -e "${CYAN}   ♥️ Thank you for installing Parafast!${NC}"
 echo ""
 echo -e "${YELLOW}   🚀 LAUNCHING PARAFAST... ⚡${NC}"
 echo ""
