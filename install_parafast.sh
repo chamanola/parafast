@@ -5,54 +5,68 @@ set -e
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+MAGENTA='\033[0;35m'
 NC='\033[0m'
 
+# Colorful Banner
+echo -e "${MAGENTA}"
+echo -e "${NC}"
+echo -e "${YELLOW}===========================================${NC}"
+echo -e "${CYAN}        PARAFAST INSTALLATION TOOL${NC}"
+echo -e "${YELLOW}===========================================${NC}"
+echo ""
+
 error_exit() {
-    echo -e "${RED}[ERROR] $1${NC}" >&2
+    echo -e "${RED}[✗] ERROR: $1${NC}" >&2
     exit 1
 }
 
-# Simple and reliable loop prevention
-if ps -o cmd= -C "parafast" | grep -q "parafast"; then
-    echo -e "${YELLOW}Parafast is already running! Exiting...${NC}"
-    exit 0
-fi
-
 if ! command -v curl &> /dev/null; then
-    error_exit "Install curl first: 'pkg install curl' (Termux) or 'sudo apt install curl' (Linux)"
+    error_exit "curl is required but not installed.\nInstall using:\n  ${YELLOW}Termux: pkg install curl\n  Linux: sudo apt install curl${NC}"
 fi
 
 ARCH=$(uname -m)
-echo -e "${YELLOW}Detected architecture: $ARCH${NC}"
+echo -e "${CYAN}🔍 Detected architecture: ${YELLOW}$ARCH${NC}"
 
 URL32="https://github.com/chamanola/parafast/raw/main/android%2032%20bit/parafast"
 URL64="https://github.com/chamanola/parafast/raw/main/android%2Blinux%2064bit/parafast"
 
-case "$ARCH" in
-    armv7l|i686|x86|arm) DOWNLOAD_URL=$URL32 ;;
-    arm64|aarch64|x86_64) DOWNLOAD_URL=$URL64 ;;
-    *) error_exit "Unsupported CPU: $ARCH" ;;
-esac
+if [[ "$ARCH" == "armv7l" || "$ARCH" == "i686" || "$ARCH" == "x86" || "$ARCH" == "arm" ]]; then
+    echo -e "${GREEN}↓ Downloading 32-bit version...${NC}"
+    DOWNLOAD_URL=$URL32
+elif [[ "$ARCH" == "arm64" || "$ARCH" == "aarch64" || "$ARCH" == "x86_64" ]]; then
+    echo -e "${GREEN}↓ Downloading 64-bit version...${NC}"
+    DOWNLOAD_URL=$URL64
+else
+    error_exit "Unsupported architecture: $ARCH"
+fi
 
-# Clean and simple installation
-{
-    rm -f ~/go/bin/parafast
-    mkdir -p ~/go/bin
-    curl -L "$DOWNLOAD_URL" -o ~/go/bin/parafast
-    chmod +x ~/go/bin/parafast
-} || error_exit "Installation failed"
+echo -e "${YELLOW}🧹 Cleaning previous installations...${NC}"
+rm -f ~/go/bin/parafast ~/go/bin/parafast_main 2>/dev/null || true
+mkdir -p ~/go/bin || error_exit "Failed to create ~/go/bin directory"
 
-# Add to PATH if missing
-grep -q 'export PATH=$PATH:$HOME/go/bin' ~/.bashrc || \
+echo -e "${CYAN}⚡ Downloading parafast...${NC}"
+if ! curl -L "$DOWNLOAD_URL" -o ~/go/bin/parafast; then
+    error_exit "Download failed! Check your internet connection"
+fi
+
+chmod +x ~/go/bin/parafast || error_exit "Failed to make parafast executable"
+
+if ! grep -q 'export PATH=$PATH:$HOME/go/bin' ~/.bashrc; then
     echo 'export PATH=$PATH:$HOME/go/bin' >> ~/.bashrc
+    echo -e "${GREEN}✓ Added to PATH${NC}"
+fi
 
 export PATH="$PATH:$HOME/go/bin"
 
-echo -e "${GREEN}✔ Successfully installed!${NC}"
-echo -e "${YELLOW}Starting Parafast...${NC}"
+echo -e "${GREEN}"
+echo "╔══════════════════════════════════════════╗"
+echo "║          INSTALLATION COMPLETE!         ║"
+echo "╚══════════════════════════════════════════╝"
+echo -e "${NC}"
 
-# Safest possible execution
-(~/go/bin/parafast &) 2>/dev/null || \
-    echo -e "${RED}Couldn't auto-start. Run manually: ${YELLOW}parafast${NC}"
+echo -e "${MAGENTA}Thank you for installing Parafast!${NC}"
+echo ""
 
 exit 0
