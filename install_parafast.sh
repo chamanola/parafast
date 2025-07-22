@@ -57,8 +57,6 @@ fi
 
 export PATH="$PATH:$HOME/go/bin"
 
-sleep 2
-
 echo -e "${GREEN}"
 echo "         ╔══════════════════════════════════════════╗"
 echo "                    INSTALLATION COMPLETE!         "
