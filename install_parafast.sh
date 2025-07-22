@@ -24,22 +24,22 @@ if ! command -v curl &> /dev/null; then
 fi
 
 ARCH=$(uname -m)
-echo -e "${CYAN}  🔍 Detected architecture: ${YELLOW}$ARCH${NC}"
+echo -e "${CYAN}  🔍 Detected architecture : ${YELLOW}$ARCH${NC}"
 
 URL32="https://github.com/chamanola/parafast/raw/main/android%2032%20bit/parafast"
 URL64="https://github.com/chamanola/parafast/raw/main/android%2Blinux%2064bit/parafast"
 
 if [[ "$ARCH" == "armv7l" || "$ARCH" == "i686" || "$ARCH" == "x86" || "$ARCH" == "arm" ]]; then
-    echo -e "${GREEN}  ↓ Downloading 32-bit version...${NC}"
+    echo -e "${GREEN}  ⬇️ Downloading 32-bit version...${NC}"
     DOWNLOAD_URL=$URL32
 elif [[ "$ARCH" == "arm64" || "$ARCH" == "aarch64" || "$ARCH" == "x86_64" ]]; then
-    echo -e "${GREEN}  ↓ Downloading 64-bit version...${NC}"
+    echo -e "${GREEN}  ⬇️ Downloading 64-bit version...${NC}"
     DOWNLOAD_URL=$URL64
 else
     error_exit "Unsupported architecture: $ARCH"
 fi
 
-echo -e "${YELLOW}  🧹 Cleaning previous installations...${NC}"
+echo -e "${YELLOW}  💦 Cleaning previous installations...${NC}"
 rm -f ~/go/bin/parafast ~/go/bin/parafast_main 2>/dev/null || true
 mkdir -p ~/go/bin || error_exit "Failed to create ~/go/bin directory"
 
@@ -65,7 +65,7 @@ echo "                    INSTALLATION COMPLETE!         "
 echo "         ╚══════════════════════════════════════════╝"
 echo -e "${NC}"
 
-echo -e "${CYAN}       Thank you for installing Parafast!${NC}"
+echo -e "${CYAN}    ❤️ Thank you for installing Parafast!${NC}"
 echo ""
 echo -e "${YELLOW}   🚀 LAUNCHING PARAFAST... ⚡${NC}"
 echo ""
