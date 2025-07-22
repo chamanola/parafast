@@ -9,7 +9,6 @@ CYAN='\033[0;36m'
 MAGENTA='\033[0;35m'
 NC='\033[0m'
 
-# Colorful Banner
 echo -e "${MAGENTA}"
 echo -e "${NC}"
 echo -e "${YELLOW}===========================================${NC}"
@@ -62,7 +61,7 @@ export PATH="$PATH:$HOME/go/bin"
 
 echo -e "${GREEN}"
 echo "╔══════════════════════════════════════════╗"
-echo "║          INSTALLATION COMPLETE!         ║"
+echo "           INSTALLATION COMPLETE!         "
 echo "╚══════════════════════════════════════════╝"
 echo -e "${NC}"
 
