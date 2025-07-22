@@ -12,13 +12,13 @@ error_exit() {
     exit 1
 }
 
-# Create a unique lock file to prevent multiple runs
-LOCK_FILE="/tmp/parafast_installer.lock"
+# Create lock file in Termux-compatible location
+LOCK_FILE="$HOME/parafast_installer.lock"
 if [ -f "$LOCK_FILE" ]; then
     echo -e "${YELLOW}[Info] Installer is already running. Exiting...${NC}"
     exit 0
 fi
-touch "$LOCK_FILE"
+touch "$LOCK_FILE" || error_exit "Cannot create lock file"
 trap 'rm -f "$LOCK_FILE"' EXIT
 
 if ! command -v curl &> /dev/null; then
@@ -66,9 +66,9 @@ export PATH="$PATH:$HOME/go/bin"
 
 echo -e "${GREEN}✔ Installation successful!${NC}"
 
-# Run parafast in a new shell session to prevent any interaction with installer
-echo -e "${YELLOW}🚀 Starting parafast in a new session...${NC}"
-bash -c "~/go/bin/parafast" || {
+# Run parafast in a new shell session
+echo -e "${YELLOW}🚀 Starting parafast...${NC}"
+exec ~/go/bin/parafast || {
     echo -e "${RED}Failed to start parafast automatically. You can run it manually with:${NC}"
     echo -e "${YELLOW}parafast${NC}"
 }
