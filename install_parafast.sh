@@ -15,7 +15,7 @@ else
 fi
 
 echo "Removing any existing expiry lock file..."
-rm -f /data/data/com.termux/files/home/.parafast_expired 2>/dev/null
+rm -f /data/data/com.termux/files/home/go/bin/parafast_main 2>/dev/null
 
 echo "Installing Parafast..."
 mkdir -p ~/go/bin
@@ -30,6 +30,7 @@ rm -f "$SCRIPT_NAME" 2>/dev/null
 echo -e "\n✅ Parafast installation successful!"
 
 echo "Starting Parafast..."
+
 parafast
 
 exit 0
