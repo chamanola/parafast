@@ -52,9 +52,7 @@ if ! grep -q 'export PATH=$PATH:$HOME/go/bin' ~/.bashrc; then
 fi
 
 echo -e "${GREEN}\nInstallation successful!${NC}"
-echo -e "You can now run Parafast by typing: ${YELLOW}parafast${NC}"
-
-echo -e "\n${YELLOW}Installation complete. Run 'parafast' manually to start.${NC}"
-exit 0
 
 parafast
+
+exit 0
