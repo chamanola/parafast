@@ -68,6 +68,6 @@ echo ""
 echo -e "${YELLOW}   🚀 LAUNCHING PARAFAST... ⚡${NC}"
 echo ""
 
-sleep 5
+sleep 3
 
 exit 0
