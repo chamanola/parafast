@@ -67,7 +67,8 @@ echo -e "${NC}"
 
 echo -e "${MAGENTA}   Thank you for installing Parafast!${NC}"
 echo ""
+echo -e "${YELLOW}   🚀 LAUNCHING PARAFAST... ⚡
 
-sleep 1
+sleep 5
 
 exit 0
