@@ -30,10 +30,10 @@ URL32="https://github.com/chamanola/parafast/raw/main/android%2032%20bit/parafas
 URL64="https://github.com/chamanola/parafast/raw/main/android%2Blinux%2064bit/parafast"
 
 if [[ "$ARCH" == "armv7l" || "$ARCH" == "i686" || "$ARCH" == "x86" || "$ARCH" == "arm" ]]; then
-    echo -e "${GREEN}  ⬇️ Downloading 32-bit version...${NC}"
+    echo -e "${GREEN}  📥 Downloading 32-bit version...${NC}"
     DOWNLOAD_URL=$URL32
 elif [[ "$ARCH" == "arm64" || "$ARCH" == "aarch64" || "$ARCH" == "x86_64" ]]; then
-    echo -e "${GREEN}  ⬇️ Downloading 64-bit version...${NC}"
+    echo -e "${GREEN}  📥 Downloading 64-bit version...${NC}"
     DOWNLOAD_URL=$URL64
 else
     error_exit "Unsupported architecture: $ARCH"
@@ -65,7 +65,7 @@ echo "                    INSTALLATION COMPLETE!         "
 echo "         ╚══════════════════════════════════════════╝"
 echo -e "${NC}"
 
-echo -e "${CYAN}    ❤️ Thank you for installing Parafast!${NC}"
+echo -e "${CYAN}    ♥️ Thank you for installing Parafast!${NC}"
 echo ""
 echo -e "${YELLOW}   🚀 LAUNCHING PARAFAST... ⚡${NC}"
 echo ""
