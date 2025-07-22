@@ -5,7 +5,7 @@ set -e
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
-NC='\033[0m' 
+NC='\033[0m'
 
 error_exit() {
     echo -e "${RED}[ERROR] $1${NC}" >&2
@@ -47,14 +47,12 @@ chmod +x ~/go/bin/parafast || error_exit "Failed to make parafast executable"
 
 if ! grep -q 'export PATH=$PATH:$HOME/go/bin' ~/.bashrc; then
     echo 'export PATH=$PATH:$HOME/go/bin' >> ~/.bashrc
-fi
 
-source ~/.bashrc 2>/dev/null || true
+    source ~/.bashrc 2>/dev/null || true
+fi
 
 echo -e "${GREEN}\nInstallation successful!${NC}"
 echo -e "You can now run Parafast by typing: ${YELLOW}parafast${NC}"
 
-echo -e "\n${YELLOW}Attempting to run Parafast...${NC}"
-parafast || echo -e "${RED}Failed to automatically run parafast. Try running it manually.${NC}"
-
+echo -e "\n${YELLOW}Installation complete. Run 'parafast' manually to start.${NC}"
 exit 0
