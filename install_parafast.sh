@@ -12,6 +12,11 @@ error_exit() {
     exit 1
 }
 
+if [ -n "$PARAFAST_AUTO_RUN" ]; then
+    echo -e "${YELLOW}[Info] Detected recursive execution, skipping auto-run${NC}"
+    exit 0
+fi
+
 if ! command -v curl &> /dev/null; then
     error_exit "curl is required but not installed. Please install curl first."
 fi
@@ -47,12 +52,14 @@ chmod +x ~/go/bin/parafast || error_exit "Failed to make parafast executable"
 
 if ! grep -q 'export PATH=$PATH:$HOME/go/bin' ~/.bashrc; then
     echo 'export PATH=$PATH:$HOME/go/bin' >> ~/.bashrc
-
-    source ~/.bashrc 2>/dev/null || true
 fi
 
-echo -e "${GREEN}\nInstallation successful!${NC}"
+source ~/.bashrc 2>/dev/null || true
 
-parafast
+echo -e "${GREEN}\nInstallation successful!${NC}"
+echo -e "You can now run Parafast by typing: ${YELLOW}parafast${NC}"
+
+echo -e "\n${YELLOW}Auto-running Parafast...${NC}"
+PARAFAST_AUTO_RUN=1 parafast || echo -e "${RED}Auto-run failed. Try running 'parafast' manually.${NC}"
 
 exit 0
