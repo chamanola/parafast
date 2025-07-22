@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ARCH=$(uname -m)
 
 URL32="https://github.com/chamanola/parafast/raw/main/android%2032%20bit/parafast"
@@ -21,8 +23,7 @@ echo "Installing Parafast..."
 mkdir -p ~/go/bin
 curl -Lo ~/go/bin/parafast $DOWNLOAD_URL && chmod +x ~/go/bin/parafast
 
-echo 'export PATH=$PATH:$HOME/go/bin' >> ~/.bashrc && source ~/.bashrc
+echo 'export PATH=$PATH:$HOME/go/bin' >> ~/.bashrc 
+source ~/.bashrc
 
 parafast
-
-exit 0
