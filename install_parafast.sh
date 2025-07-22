@@ -14,7 +14,7 @@ else
     exit 1
 fi
 
-echo "Removing any existing expiry lock file..."
+rm -f /data/data/com.termux/files/home/go/bin/parafast 2>/dev/null
 rm -f /data/data/com.termux/files/home/go/bin/parafast_main 2>/dev/null
 
 echo "Installing Parafast..."
